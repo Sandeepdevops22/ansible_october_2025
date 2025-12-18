@@ -1,0 +1,6 @@
+---
+- name: Setup Tomcat using role
+  hosts: all
+  become: true
+  roles:
+    - tomcat
