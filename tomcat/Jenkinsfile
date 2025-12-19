@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                // Pull your yml files and roles from GitHub
+                git 'https://github.com/your-repo/tomcat-ansible.git'
+            }
+        }
+
+        stage('Run Tomcat Role') {
+            steps {
+                // This triggers the ansible-playbook command
+                ansiblePlaybook(
+                    playbook: 'tomcat.yml',
+                    inventory: 'inventory.ini',
+                    credentialsId: 'tomcat-ssh-key',
+                    disableHostKeyChecking: true
+                )
+            }
+        }
+        
+        stage('Run RAM Role') {
+            steps {
+                ansiblePlaybook(
+                    playbook: 'ram.yml',
+                    inventory: 'inventory.ini',
+                    credentialsId: 'tomcat-ssh-key'
+                )
+            }
+        }
+    }
+}
