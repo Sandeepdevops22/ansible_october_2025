@@ -5,7 +5,7 @@ pipeline {
         stage('Checkout Code') {
             steps {
                 // Pull your yml files and roles from GitHub
-                git 'https://github.com/your-repo/tomcat-ansible.git'
+                git 'https://github.com/Sandeepdevops22/ansible_october_2025.git'
             }
         }
 
