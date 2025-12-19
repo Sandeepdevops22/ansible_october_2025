@@ -2,31 +2,15 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout Code') {
+        stage('Jenkins_ansible_integration') {
             steps {
-                // Pull your yml files and roles from GitHub
-                git 'https://github.com/Sandeepdevops22/ansible_october_2025.git'
-            }
-        }
-
-        stage('Run Tomcat Role') {
-            steps {
-                // This triggers the ansible-playbook command
+                // We remove credentialsId so Ansible uses the local .ssh/id_rsa
                 ansiblePlaybook(
-                    playbook: 'tomcat.yml',
-                    inventory: 'inventory.ini',
-                    credentialsId: 'tomcat-ssh-key',
-                    disableHostKeyChecking: true
-                )
-            }
-        }
-        
-        stage('Run RAM Role') {
-            steps {
-                ansiblePlaybook(
-                    playbook: 'ram.yml',
-                    inventory: 'inventory.ini',
-                    credentialsId: 'tomcat-ssh-key'
+                    installation: 'ansible',
+                    playbook: '/etc/ansible/roles/tomcat.yml',
+                    inventory: '/etc/ansible/hosts',
+                    disableHostKeyChecking: true,
+                    sudoUser: 'ubuntu'
                 )
             }
         }
